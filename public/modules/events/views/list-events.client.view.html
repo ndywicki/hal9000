@@ -1,0 +1,15 @@
+<section data-ng-controller="EventsController">
+	<div class="page-header">
+		<h1>Journal d'événements</h1>
+	</div>
+	<div class="list-group">
+		<p><strong>Total:</strong> {{tableEvents.total()}}</p>
+		<table ng-table="tableEvents" class="table">
+			<tr ng-repeat="event in $data">
+				<td data-title="'Created'">{{event.created}}</td>
+				<td data-title="'Content'">{{event.eventId}}</td>
+				<td data-title="'Content'">{{event.content}}</td>
+			</tr>
+		</table>
+	</div>
+</section>

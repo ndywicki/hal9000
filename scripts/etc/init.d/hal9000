@@ -1,0 +1,81 @@
+#!/bin/sh
+# /etc/init.d/hal9000
+ 
+### BEGIN INIT INFO
+# Provides:          hal9000 node application
+# Required-Start:    $syslog $remote_fs
+# Required-Stop:     $syslog $remote_fs
+# Should-Start:      $local_fs
+# Should-Stop:       $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Script for Hal9000 Node Application
+# Description:       Script for Hal9000 Node Application
+### END INIT INFO
+ 
+# Maintener nicolas.dywicki@gmail.com
+ 
+export PATH=$PATH:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
+export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
+export NODE_ENV=production
+export HOME=/root
+
+NAME="hal9000"
+APPLICATION_DIRECTORY=/opt/hal9000
+APPLICATION_START=server.js
+PIDFILE=/var/run/$NAME.pid
+LOGFILE=/var/log/$NAME.log
+ 
+start() {
+        echo "Starting $NAME"
+	cd ~/
+        /usr/local/bin/forever --pidFile $PIDFILE \
+                -a -l $LOGFILE --minUptime 5000 --spinSleepTime 2000 --sourceDir $APPLICATION_DIRECTORY \
+                start $APPLICATION_START > /root/prout.txt 2>&1
+        RETVAL=$?
+}
+ 
+stop() {
+        if [ -f $PIDFILE ]; then
+                echo "Shutting down $NAME"
+                #rm -f $PIDFILE
+		cd ~/
+		/usr/local/bin/forever stop $APPLICATION_DIRECTORY/$APPLICATION_START
+                RETVAL=$?
+        else
+                echo "$NAME is not running."
+                RETVAL=0
+        fi
+}
+ 
+restart() {
+        echo "Restarting $NAME"
+        stop
+        start
+}
+ 
+status() {
+        echo "Status for $NAME:"
+        /usr/local/bin/forever list
+        RETVAL=$?
+}
+ 
+case "$1" in
+        start)
+                start
+                ;;
+        stop)
+                stop
+                ;;
+        status)
+                status
+                ;;
+        restart)
+                restart
+                ;;
+        *)
+                echo "Usage: {start|stop|status|restart}"
+                exit 1
+                ;;
+esac
+exit $RETVAL

@@ -1,0 +1,81 @@
+<section data-ng-controller="HomeController">
+	<div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+			<div>
+				<h1 data-ng-show="authentication.user">Bonjour {{authentication.user.firstName}} !</h1>
+				<h1 data-ng-hide="authentication.user">Bonjour !</h1>
+
+				<div ng-app="core" ng-controller="WeatherController" class="container">
+					<div class="row">
+						<div class="col-sm-9"><h2>A {{ weather.name }}, la température aujourd'hui est de {{ weather.temp.current | temperature:2 }}</h2></div>
+						<div class="col-sm-3">
+							<weather-icon icon="{{ weather.icon }}"></weather-icon>
+							<h3>{{ weather.desciption }}</h3>
+							min: {{ weather.temp.min | temperature }}, max: {{ weather.temp.max | temperature }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h2>Alarme</h2>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-2">
+					<h3>Mode</h3>
+					<div class="btn-group-vertical">
+						<button type="button" class="btn btn-success" ng-click="changeAlarmStatus('complet')">Complet</button>
+						<button type="button" class="btn btn-warning" ng-click="changeAlarmStatus('perimetrique')">Perimetrique</button>
+						<button type="button" class="btn btn-default" ng-click="changeAlarmStatus('standby')">Standby</button>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<h3>Paramètres</h3>
+					<div class="form-group">
+						<label for="tempo">Temporisation (sec):</label>
+						<input type="number" class="form-control" ng-model=alarmTempo id="tempo">
+						<div class="input-help">
+							<h4>The value is not a number.</h4>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-4">
+					<h3>Statut</h3>
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="control-label col-sm-2">Etat:</label>
+							<div class="col-sm-4">
+								<button type="button" class="btn btn-lg {{alarmStatusClass}} disabled">{{alarmStatus}}</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">Alertes:</label>
+							<div class="col-sm-4">
+								<pre class="text-align: right;">{{alertesCount}}</pre>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-sm-2">Actions:</label>
+							<div class="col-sm-4">
+								<pre>{{actionsCount}}</pre>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-md-2">
+					<h3>Capteurs</h3>
+					<div ng-repeat="sensor in sensors">
+						<div class="row">
+							<ng-sensor id="{{sensor.id}}"></ng-sensor>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<footer>
+		<p>© Nicolas Dywicki 2015</p>
+	</footer>
+</section>
