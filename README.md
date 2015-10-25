@@ -55,7 +55,7 @@ It's the same mecanism to push command to Arduino from the application.
 
 For the SMS feature I used Freemobile API and I developed the [sms-freemobile-api](https://www.npmjs.com/package/sms-freemobile-api) npm module to easy use.
 
-To launch application on raspberry PI startup I use init.d script with [Forever](https://github.com/foreverjs/forever)
+To launch application on raspberry PI startup I use [init.d](https://github.com/ndywicki/hal9000/blob/master/scripts/etc/init.d/hal9000) script with [Forever](https://github.com/foreverjs/forever)
 
 ## Overall scheme
 ![overall](https://cloud.githubusercontent.com/assets/1721344/10712543/aecda412-7a9d-11e5-94f8-8548489e5c3a.PNG)
